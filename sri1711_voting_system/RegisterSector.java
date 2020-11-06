@@ -12,6 +12,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -20,10 +24,57 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 public class RegisterSector {
+	
+	public static void Candidate_database(String Candidate_name,String Party_name,String Party_logo,String Candidate_image,String Party_email){
+		Connection conn = null;
+		try{
+			
+			//Url of DataBase
+			String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
+			
+			//Connecting Database 
+			conn = DriverManager.getConnection(url);
+			System.out.println("\n Connected");
+			
+			//Sql Query to execute
+			String sqlquery = "INSERT INTO CandidateDatabase(CandidateName,PartyName,PartyLogo,CandidateImage,PartyEmail) VALUES(?,?,?,?,?)";
+			
+			
+			PreparedStatement ps = conn.prepareStatement(sqlquery);
+			ps.setString(1,Candidate_name);
+			ps.setString(2,Party_name);
+			ps.setString(3,Party_logo);
+			ps.setString(4,Candidate_image);
+			ps.setString(5,Party_email);
+			
+			// Executing Sql Query
+			ps.executeUpdate();
+			System.out.println("Added");
+			JOptionPane.showMessageDialog(null, "Registered Successfully");
+			
+					
+		}
+		catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+		finally{
+			try{
+				conn.close();
+			}
+			catch(SQLException e){
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		
+	}
+	
+	
 	public static void Candidate_register_frame(){
 		JFrame frame  =  new JFrame();
 		frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
@@ -47,7 +98,7 @@ public class RegisterSector {
 		frame.add(frame_title);
 		
 		
-        JButton upload = new JButton("Click to upload your photo");
+        JButton upload = new JButton("upload Candidate photo");
         upload.setBounds(150, 420, 150, 30);
         frame.add(upload);
         upload.setBackground(new Color(76,81,137));
@@ -62,10 +113,10 @@ public class RegisterSector {
         frame.add(photo);
         
         // To create Labels for inputs in frame
-        JLabel Party_name        = new JLabel("Party Name     : ");
-        JLabel Candidate_name    = new JLabel("Candidate Name : ");
-        JLabel Party_sym         = new JLabel("Party_Image    : ");
-        JLabel Party_Email       = new JLabel("Party Email Id : ");
+        JLabel Party_name        = new JLabel("Party Name*     : ");
+        JLabel Candidate_name    = new JLabel("Candidate Name* : ");
+        JLabel Party_sym         = new JLabel("Party_Image*    : ");
+        JLabel Party_Email       = new JLabel("Party Email Id* : ");
         
         JButton Party_image      = new JButton("Upload");
         Party_image.setBounds(480,320,100,25);
@@ -132,15 +183,12 @@ public class RegisterSector {
         ArrayList<JLabel> labels_photo = new ArrayList<JLabel>();
         ArrayList<JLabel> labels_party_image = new ArrayList<JLabel>();
 
-//        Party_name_tf.addActionListener(new ActionListener(){
-//        	public void actionPerformed(ActionEvent e){
-//        		
-//        	}
-//        });
+
         //JButton Event Listener
         upload.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e){
         		photo.setVisible(true);
+        		upload.setText("upload candidate photo");
         		
         		JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setAcceptAllFileFilterUsed(false);
@@ -156,6 +204,7 @@ public class RegisterSector {
                 		Image im = background_icon.getImage();
                 		Image resizedImage = im.getScaledInstance(150, 200, java.awt.Image.SCALE_SMOOTH);
                 		JLabel Cphoto = new JLabel(new ImageIcon(resizedImage));
+                		upload.setText(file.getName());
                 		photo.setVisible(false);
                 		frame.add(Cphoto);
                 		labels_photo.add(Cphoto);
@@ -181,6 +230,7 @@ public class RegisterSector {
         
         Party_image.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e){
+        		Party_image.setText("Upload");
         		JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setAcceptAllFileFilterUsed(false);
                 int option = fileChooser.showOpenDialog(frame);
@@ -193,11 +243,12 @@ public class RegisterSector {
                 		Image im = background_icon.getImage();
                 		Image resizedImage = im.getScaledInstance(90, 100, java.awt.Image.SCALE_SMOOTH);
                 		JLabel Party_photo = new JLabel(new ImageIcon(resizedImage));
+                		Party_image.setText(file.getName());
                 		frame.add(Party_photo);
-                		labels_photo.add(Party_photo);
-                		Party_photo.setBounds(600, 300, 100, 100);
+                		labels_party_image.add(Party_photo);
+                		Party_photo.setBounds(640, 300, 100, 100);
                 		if(labels_party_image.size() > 1){
-                			JLabel Party_photo_temp = labels_photo.get(0);
+                			JLabel Party_photo_temp = labels_party_image.get(0);
                 			frame.remove(Party_photo_temp);
                 			labels_party_image.remove(0);
                 		}
@@ -220,6 +271,29 @@ public class RegisterSector {
         Submit_button.setBackground(new Color(76,81,137));
         Submit_button.setForeground(new Color(255, 215, 0));
         //Submit_button.setBorder(new Border());
+        
+        Submit_button.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Clicked Submit Button");
+        		if(!(Candidate_name_tf.getText().equals("")) && !(Party_name_tf.getText().equals("")) && labels_photo.size()!= 0 && labels_party_image.size()!=0 && !(Party_Email_tf.getText().equals(""))){
+        			if((Party_Email_tf.getText()).contains("@")){
+        				Candidate_database(Candidate_name_tf.getText(),Party_name_tf.getText(),"sfaf","Srtrt",Party_Email_tf.getText());
+        				Candidate_name_tf.setText("");
+        				Party_name_tf.setText("");
+        				Party_Email_tf.setText("");
+        				photo.setVisible(true);
+        				(labels_party_image.get(0)).setVisible(false);
+        			}
+        			else{
+        				JOptionPane.showMessageDialog(null, "Check Your Email Id");
+        			}
+        		}
+        		else{
+        			JOptionPane.showMessageDialog(null, "All fields are Mandatory");
+        		}
+        		
+        	}
+        });
 		
 		frame.setLayout(null);
 		frame.setSize(800,600);
