@@ -81,7 +81,7 @@ public class DB {
 
 		}
 		
-		public static void Candidate_database(String Candidate_name,String Party_name,String Party_logo,String Candidate_image,String Party_email){
+		public static void Candidate_database(String CandidateId, String Candidate_name,String Party_name,String Party_logo,String Candidate_image,String Party_email){
 			Connection conn = null;
 			try{
 				
@@ -93,15 +93,16 @@ public class DB {
 				System.out.println("\n Connected");
 				
 				//Sql Query to execute
-				String sqlquery = "INSERT INTO CandidateDatabase(CandidateName,PartyName,PartyLogo,CandidateImage,PartyEmail) VALUES(?,?,?,?,?)";
+				String sqlquery = "INSERT INTO CandidateDatabase(CandidateId,CandidateName,PartyName,PartyLogo,CandidateImage,PartyEmail) VALUES(?,?,?,?,?,?)";
 				
 				
 				PreparedStatement ps = conn.prepareStatement(sqlquery);
-				ps.setString(1,Candidate_name);
-				ps.setString(2,Party_name);
-				ps.setString(3,Party_logo);
-				ps.setString(4,Candidate_image);
-				ps.setString(5,Party_email);
+				ps.setString(1,CandidateId);
+				ps.setString(2,Candidate_name);
+				ps.setString(3,Party_name);
+				ps.setString(4,Party_logo);
+				ps.setString(5,Candidate_image);
+				ps.setString(6,Party_email);
 				
 				// Executing Sql Query
 				ps.executeUpdate();

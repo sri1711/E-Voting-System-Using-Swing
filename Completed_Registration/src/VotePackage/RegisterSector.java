@@ -32,6 +32,34 @@ import javax.swing.border.Border;
 public class RegisterSector {
 	
 	
+	public static String getCandidateId(int n) 
+    { 
+  
+        // chose a Character random from this String 
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    + "0123456789"
+                                    + "abcdefghijklmnopqrstuvxyz"; 
+  
+        // create StringBuffer size of AlphaNumericString 
+        StringBuilder sb = new StringBuilder(n); 
+  
+        for (int i = 0; i < n; i++) { 
+  
+            // generate a random number between 
+            // 0 to AlphaNumericString variable length 
+            int index 
+                = (int)(AlphaNumericString.length() 
+                        * Math.random()); 
+  
+            // add Character one by one in end of sb 
+            sb.append(AlphaNumericString 
+                          .charAt(index)); 
+        } 
+  
+        return sb.toString(); 
+    }  
+	
+	
 	public static void Candidate_register_frame(){
 		JFrame frame  =  new JFrame();
 		frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
@@ -137,6 +165,11 @@ public class RegisterSector {
         Party_Email_tf.setForeground(new Color(255, 215, 0));
         Party_Email_tf.setBackground(new Color(76,81,137));
         
+        
+        Candidate_name_tf.setMargin(new Insets(2,10,2,10));
+        Party_name_tf.setMargin(new Insets(2,10,2,10));
+        Party_Email_tf.setMargin(new Insets(2,10,2,10));
+        
         ArrayList<JLabel> labels_photo = new ArrayList<JLabel>();
         ArrayList<JLabel> labels_party_image = new ArrayList<JLabel>();
 
@@ -234,7 +267,9 @@ public class RegisterSector {
         		System.out.println("Clicked Submit Button");
         		if(!(Candidate_name_tf.getText().equals("")) && !(Party_name_tf.getText().equals("")) && labels_photo.size()!= 0 && labels_party_image.size()!=0 && !(Party_Email_tf.getText().equals(""))){
         			if((Party_Email_tf.getText()).contains("@")){
-        				DB.Candidate_database(Candidate_name_tf.getText(),Party_name_tf.getText(),"sfaf","Srtrt",Party_Email_tf.getText());
+        				String candidate_id = getCandidateId(6);
+        				DB.Candidate_database(candidate_id,Candidate_name_tf.getText(),Party_name_tf.getText(),"sfaf","Srtrt",Party_Email_tf.getText());
+        				
         				Candidate_name_tf.setText("");
         				Party_name_tf.setText("");
         				Party_Email_tf.setText("");
@@ -291,12 +326,19 @@ public class RegisterSector {
 		title.setOpaque(false);
 		title.setFont(new Font("Serif",Font.PLAIN,32));
 		frame.add(title);
+		
+		ImageIcon candidate_icon = new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/user-3.jpg");
+		Image candidate = candidate_icon.getImage();
+		Image resizedImage_candidate = candidate.getScaledInstance(150, 200, java.awt.Image.SCALE_SMOOTH);
+        JLabel photo = new JLabel(new ImageIcon(resizedImage_candidate));
+        photo.setBounds(200,220,150,200);
+        frame.add(photo);
 
-		JButton photo = new JButton("Click to upload \nyour photo");
-		photo.setBounds(200,220,150,200);
-		frame.add(photo);
-		photo.setForeground(new Color(255, 215, 0));
-		photo.setBackground(new Color(76,81,137));
+		JButton upload = new JButton("Click to upload \nyour photo");
+		upload.setBounds(200,420,150,30);
+		frame.add(upload);
+		upload.setForeground(new Color(255, 215, 0));
+		upload.setBackground(new Color(76,81,137));
 
 		
 
@@ -395,6 +437,53 @@ public class RegisterSector {
         back_button.setBackground(new Color(76,81,137));
         back_button.setForeground(new Color(255, 215, 0));
         frame.add(back_button);
+        
+        
+        ArrayList<JLabel> labels_photo = new ArrayList<JLabel>();
+        
+        
+        upload.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		photo.setVisible(true);
+        		upload.setText("upload candidate photo");
+        		
+        		JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setAcceptAllFileFilterUsed(false);
+
+                int option = fileChooser.showOpenDialog(frame);
+                JLabel label = new JLabel();
+                if(option == JFileChooser.APPROVE_OPTION){
+                	try{
+                		
+                		File file = fileChooser.getSelectedFile();
+                		BufferedImage bi = ImageIO.read(file);
+                		ImageIcon background_icon = new ImageIcon(bi);
+                		Image im = background_icon.getImage();
+                		Image resizedImage = im.getScaledInstance(150, 200, java.awt.Image.SCALE_SMOOTH);
+                		JLabel Cphoto = new JLabel(new ImageIcon(resizedImage));
+                		upload.setText(file.getName());
+                		photo.setVisible(false);
+                		frame.add(Cphoto);
+                		labels_photo.add(Cphoto);
+                		Cphoto.setBounds(200, 220, 150, 200);
+                		if(labels_photo.size() > 1){
+                			JLabel Cphoto_temp = labels_photo.get(0);
+                			frame.remove(Cphoto_temp);
+                			labels_photo.remove(0);
+                		}
+                		
+                		
+                	}
+                	catch(Exception el){
+                		el.printStackTrace();
+                	}
+    	   		   
+                  
+                }else{
+                   label.setText("Open command canceled");
+                }   
+        	}
+        });
         
         
 		submit.addActionListener(new ActionListener(){

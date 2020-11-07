@@ -16,6 +16,7 @@ class MainPage {
 		JButton RegB = new JButton("Register");
 		JButton LogB = new JButton("Login");
 		JButton AdminB = new JButton("Admin");
+		JButton exit = new JButton("Exit");
 		JLabel Title = new JLabel("Welcome to e-Voting");
 		JLabel image = new JLabel(new ImageIcon(url));
 		JLabel ECI = new JLabel(new ImageIcon(eci));
@@ -25,6 +26,7 @@ class MainPage {
 		f.add(RegB);
 		f.add(LogB);
 		f.add(AdminB);
+		f.add(exit);
 		image.setBounds(0, 150, 400, 400);
 		ECI.setBounds(150,15,500,80);
 		Title.setBounds(250,85,600,80);
@@ -42,11 +44,20 @@ class MainPage {
 		RegB.setBounds(465, 200, 180, 70);
 		LogB.setBounds(465, 300, 180, 70);
 		AdminB.setBounds(465, 400, 180, 70);
+		exit.setBounds(710,510,60,40);
+		exit.setForeground(new Color(255, 215, 0));
+		exit.setBackground(new Color(76,81,137));
 		f.setSize(800,600);
 		f.setLayout(null);
 		f.getContentPane().setBackground(new Color(248,248,248));
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		exit.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				f.dispose();
+			}
+		});
 		
 		RegB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
