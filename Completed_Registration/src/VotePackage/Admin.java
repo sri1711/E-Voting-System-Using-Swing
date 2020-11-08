@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -76,8 +78,79 @@ public class Admin {
 		otp_frame.setSize(800,600);
 		otp_frame.setVisible(true); 
 	}
+	
+	public static void admin_main_frame(){
+			JFrame frame  = new JFrame();
+			frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
+			JLabel logo = new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/EC_India.jpeg"));
+			Dimension image_size = logo.getPreferredSize();		
+			frame.add(logo);
+			frame.setVisible(true);
+			logo.setBounds(270,50,image_size.width,image_size.height);
+			frame.setLayout(null);
+			frame.setSize(900,600);
+			//frame.getContentPane().setBackground(new Color(248,248,248));
+
+			JLabel title = new JLabel("Admin Portal");
+			//Dimension title_size = title.getPreferredSize();
+			title.setBounds(325,150,350,50);
+			title.setForeground(new Color(255, 215, 0));
+			title.setOpaque(false);
+			title.setFont(new Font("Serif",Font.PLAIN,45));
+			frame.add(title);
+			
+			JButton Request_button  = new JButton("Requests");
+			Request_button.setBounds(250,300,180,80);
+			Request_button.setFont(new Font("Serif", Font.PLAIN,25));
+			Request_button.setBackground(new Color(76,81,137));
+			Request_button.setForeground(new Color(255, 215, 0));
+			frame.add(Request_button);
+
+			JButton Livestatus_button  = new JButton("Live Status");
+			Livestatus_button.setBounds(460,300,180,80);
+			Livestatus_button.setFont(new Font("Serif", Font.PLAIN, 25));
+			Livestatus_button.setBackground(new Color(76,81,137));
+			Livestatus_button.setForeground(new Color(255, 215, 0));
+			//rgb(51, 102, 255)
+			frame.add(Livestatus_button);
+			
+			
+			JButton logout_button = new JButton(" Logout ");
+			logout_button.setBounds(355,400,180,80);
+			logout_button.setFont(new Font("Serif", Font.PLAIN, 25));
+			logout_button.setBackground(new Color(76,81,137));
+			logout_button.setForeground(new Color(255, 215, 0));
+			frame.add(logout_button);
+			
+			Request_button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent ae){
+					frame.dispose();
+					//Candidate_register_frame();
+				}
+			});
+			
+			Livestatus_button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent ae){
+					frame.dispose();
+					//r_frame02();
+				}
+			});
+			
+			
+			logout_button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent ae){
+					frame.dispose();
+					MainPage.main(null);
+				}
+			});
+
+		
+	}
+	
+	
+	
 	public static void main(String[] args){
-		admin_otp_frame();
+		admin_main_frame();
 	}
 
 }

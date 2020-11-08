@@ -172,7 +172,10 @@ public class RegisterSector {
         
         ArrayList<JLabel> labels_photo = new ArrayList<JLabel>();
         ArrayList<JLabel> labels_party_image = new ArrayList<JLabel>();
-
+        
+        
+        ArrayList<File>  Candidate_photo = new ArrayList<File>();
+        ArrayList<File>  Party_photo_list = new ArrayList<File>();
 
         //JButton Event Listener
         upload.addActionListener(new ActionListener(){
@@ -189,6 +192,7 @@ public class RegisterSector {
                 	try{
                 		
                 		File file = fileChooser.getSelectedFile();
+                		Candidate_photo.add(file);
                 		BufferedImage bi = ImageIO.read(file);
                 		ImageIcon background_icon = new ImageIcon(bi);
                 		Image im = background_icon.getImage();
@@ -203,7 +207,9 @@ public class RegisterSector {
                 			JLabel Cphoto_temp = labels_photo.get(0);
                 			frame.remove(Cphoto_temp);
                 			labels_photo.remove(0);
+                			Candidate_photo.remove(0);
                 		}
+                		
                 		
                 		
                 	}
@@ -228,6 +234,7 @@ public class RegisterSector {
                 if(option == JFileChooser.APPROVE_OPTION){
                 	try{
                 		File file = fileChooser.getSelectedFile();
+                		Party_photo_list.add(file);
                 		BufferedImage bi = ImageIO.read(file);
                 		ImageIcon background_icon = new ImageIcon(bi);
                 		Image im = background_icon.getImage();
@@ -241,6 +248,7 @@ public class RegisterSector {
                 			JLabel Party_photo_temp = labels_party_image.get(0);
                 			frame.remove(Party_photo_temp);
                 			labels_party_image.remove(0);
+                			Party_photo.remove(0);
                 		}
                 		
                 	}
@@ -268,7 +276,7 @@ public class RegisterSector {
         		if(!(Candidate_name_tf.getText().equals("")) && !(Party_name_tf.getText().equals("")) && labels_photo.size()!= 0 && labels_party_image.size()!=0 && !(Party_Email_tf.getText().equals(""))){
         			if((Party_Email_tf.getText()).contains("@")){
         				String candidate_id = getCandidateId(6);
-        				DB.Candidate_database(candidate_id,Candidate_name_tf.getText(),Party_name_tf.getText(),"sfaf","Srtrt",Party_Email_tf.getText());
+        				DB.Candidate_database(candidate_id,Candidate_name_tf.getText(),Party_name_tf.getText(),Candidate_photo.get(0),Party_photo_list.get(0),Party_Email_tf.getText());
         				
         				Candidate_name_tf.setText("");
         				Party_name_tf.setText("");

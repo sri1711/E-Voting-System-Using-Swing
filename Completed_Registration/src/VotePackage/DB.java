@@ -1,5 +1,10 @@
 package VotePackage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -81,8 +86,10 @@ public class DB {
 
 		}
 		
-		public static void Candidate_database(String CandidateId, String Candidate_name,String Party_name,String Party_logo,String Candidate_image,String Party_email){
+		public static void Candidate_database(String CandidateId, String Candidate_name,String Party_name,File Candidate_image,File Party_logo,String Party_email){
 			Connection conn = null;
+			ByteArrayOutputStream bos1 = null;
+			ByteArrayOutputStream bos2 = null;
 			try{
 				
 				//Url of DataBase
@@ -97,13 +104,44 @@ public class DB {
 				
 				
 				PreparedStatement ps = conn.prepareStatement(sqlquery);
-				ps.setString(1,CandidateId);
-				ps.setString(2,Candidate_name);
-				ps.setString(3,Party_name);
-				ps.setString(4,Party_logo);
-				ps.setString(5,Candidate_image);
-				ps.setString(6,Party_email);
+				try
+				{
+					InputStream fis1 = new FileInputStream(Candidate_image);
+					byte[] buffer1 = new byte[1024];
+					bos1 = new ByteArrayOutputStream();
+					for (int len; (len = fis1.read(buffer1)) != -1;) {
+						bos1.write(buffer1, 0, len);
+					}
+					
+					InputStream fis2 = new FileInputStream(Party_logo);
+					byte[] buffer2 = new byte[1024];
+					bos2 = new ByteArrayOutputStream();
+					for (int len; (len = fis2.read(buffer2)) != -1;) {
+						bos2.write(buffer2, 0, len);
+					}
+
 				
+					ps.setString(1,CandidateId);
+					ps.setString(2,Candidate_name);
+					ps.setString(3,Party_name);
+					ps.setBytes(5,bos1.toByteArray());
+					ps.setBytes(4,bos2.toByteArray());
+					ps.setString(6,Party_email);
+					
+					
+					
+					
+//					String selectSQL = "SELECT picture FROM materials WHERE id=?";
+//			        ResultSet rs = null;
+//			        FileOutputStream fos = null;
+//			        ps.
+//					
+//					
+//					JOptionPane.showMessageDialog(null, );
+				}
+				catch(Exception e){
+					System.out.println(e.getMessage());
+				}
 				// Executing Sql Query
 				ps.executeUpdate();
 				System.out.println("Added");
