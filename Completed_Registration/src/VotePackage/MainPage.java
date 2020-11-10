@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 class MainPage {
 	public static void main(String[] args) {
-		String url ="D:/Eclipse/workspace/Elite Voting System/images/RegVote.jpg";
-		String eci = "D:/Eclipse/workspace/Elite Voting System/images/EC_India.jpeg"
+		String url ="images/RegVote.jpg";
+		String eci = "images/EC_India.jpeg"
 				+ "";
-		String bg="D:/Eclipse/workspace/Elite Voting System/images/Background.png";
+		String bg="images/Background.png";
 		JFrame f = new JFrame();
 		f.setContentPane(new JLabel(new ImageIcon(bg)));
 		JButton RegB = new JButton("Register");

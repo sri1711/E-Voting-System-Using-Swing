@@ -30,7 +30,7 @@ public class TestFrame {
 		try{
 			
 			//Url of DataBase
-			String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
+			String url = "jdbc:sqlite:CandidateDatabase.db";
 			
 			
 			//Connecting Database 

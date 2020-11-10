@@ -16,12 +16,12 @@ import javax.swing.JTextField;
 public class Admin {
 	public static void  admin_otp_frame(){
 		JFrame otp_frame = new JFrame();
-		otp_frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
+		otp_frame.setContentPane(new JLabel(new ImageIcon("images/blue_pattern.png")));
 		
 		//Links for the images used
-		String url = "D:/Eclipse/workspace/Elite Voting System/images/ElectionComm-top-image.jpeg";
-		String login_url ="D:/Eclipse/workspace/Elite Voting System/images/admin-login-button-3.png";
-		String back_url ="D:/Eclipse/workspace/Elite Voting System/images/back-image.jfif";
+		String url = "images/ElectionComm-top-image.jpeg";
+		String login_url ="images/admin-login-button-3.png";
+		String back_url ="images/back-image.jfif";
 		
 //		ImageIcon background_icon = new ImageIcon(Background_url);
 //		Image im = background_icon.getImage();
@@ -81,8 +81,8 @@ public class Admin {
 	
 	public static void admin_main_frame(){
 			JFrame frame  = new JFrame();
-			frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
-			JLabel logo = new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/EC_India.jpeg"));
+			frame.setContentPane(new JLabel(new ImageIcon("images/blue_pattern.png")));
+			JLabel logo = new JLabel(new ImageIcon("images/EC_India.jpeg"));
 			Dimension image_size = logo.getPreferredSize();		
 			frame.add(logo);
 			frame.setVisible(true);
