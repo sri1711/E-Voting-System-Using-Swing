@@ -62,14 +62,14 @@ public class RegisterSector {
 	
 	public static void Candidate_register_frame(){
 		JFrame frame  =  new JFrame();
-		frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
+		frame.setContentPane(new JLabel(new ImageIcon("images/blue_pattern.png")));
 		
 		
 		// Setting BackGroundColor of frame
 		frame.getContentPane().setBackground(new Color(248,248,248));
 		
 		// To add Election Commission Logo
-		String url = "D:/Eclipse/workspace/Elite Voting System/images/ElectionComm-top-image.jpeg";
+		String url = "ElectionComm-top-image.jpeg";
 		JLabel image = new JLabel(new ImageIcon(url));
 		Dimension image_size = image.getPreferredSize();
 		image.setBounds(200, 25, image_size.width, image_size.height);
@@ -90,7 +90,7 @@ public class RegisterSector {
         upload.setForeground(new Color(255, 215, 0));
         
         // To create space to upload photo
-        ImageIcon candidate_icon = new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/user-3.jpg");
+        ImageIcon candidate_icon = new ImageIcon("images/user-3.jpg");
 		Image candidate = candidate_icon.getImage();
 		Image resizedImage_candidate = candidate.getScaledInstance(150, 200, java.awt.Image.SCALE_SMOOTH);
         JLabel photo = new JLabel(new ImageIcon(resizedImage_candidate));
@@ -318,12 +318,12 @@ public class RegisterSector {
 	
 	public static void r_frame02(){
 		JFrame frame  = new JFrame();
-		frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
+		frame.setContentPane(new JLabel(new ImageIcon("images/blue_pattern.png")));
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setSize(900,600);
 
-		JLabel logo = new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/EC_India.jpeg"));
+		JLabel logo = new JLabel(new ImageIcon("images/EC_India.jpeg"));
 		Dimension image_size = logo.getPreferredSize();		
 		frame.add(logo);
 		logo.setBounds(250,50,image_size.width,image_size.height);
@@ -335,7 +335,7 @@ public class RegisterSector {
 		title.setFont(new Font("Serif",Font.PLAIN,32));
 		frame.add(title);
 		
-		ImageIcon candidate_icon = new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/user-3.jpg");
+		ImageIcon candidate_icon = new ImageIcon("images/user-3.jpg");
 		Image candidate = candidate_icon.getImage();
 		Image resizedImage_candidate = candidate.getScaledInstance(150, 200, java.awt.Image.SCALE_SMOOTH);
         JLabel photo = new JLabel(new ImageIcon(resizedImage_candidate));
@@ -538,8 +538,8 @@ public class RegisterSector {
 	
 	public static void r_frame01(){
 		JFrame frame  = new JFrame();
-		frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
-		JLabel logo = new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/EC_India.jpeg"));
+		frame.setContentPane(new JLabel(new ImageIcon("images/blue_pattern.png")));
+		JLabel logo = new JLabel(new ImageIcon("images/EC_India.jpeg"));
 		Dimension image_size = logo.getPreferredSize();		
 		frame.add(logo);
 		frame.setVisible(true);

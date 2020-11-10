@@ -21,7 +21,7 @@ public class DB {
 			Connection conn =null;
 			try{
 			//String url = "jdbc:sqlite:D:/Java/mini_project/data/voter_registration.db";
-			String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/voter_registration.db";
+			String url = "jdbc:sqlite:voter_registration.db";
 	         conn = DriverManager.getConnection(url);
 	         System.out.println("Connection Built successfully");
 	         System.out.println("Inside Insertion");
@@ -51,7 +51,7 @@ public class DB {
 		public static Boolean checkExistance(String AadharNumber){
 				Connection conn =null;
 			 	//String url = "jdbc:sqlite:D:/Java/mini_project/data/voter_registration.db";
-				String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/voter_registration.db";
+				String url = "jdbc:sqlite:voter_registration.db";
 			 try{
 			 	conn = DriverManager.getConnection(url);
 	         	System.out.println("Connection Built successfully");
@@ -93,7 +93,7 @@ public class DB {
 			try{
 				
 				//Url of DataBase
-				String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
+				String url = "jdbc:sqlite:CandidateDatabase.db";
 				
 				//Connecting Database 
 				conn = DriverManager.getConnection(url);
