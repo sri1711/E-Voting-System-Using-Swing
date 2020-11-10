@@ -36,7 +36,7 @@ class admin{
         //r_frame01();
     }
 
-    public static void r_frame01(){
+    public static void request_frame(){
         JFrame frame  = new JFrame();
         frame.setContentPane(new JLabel(new ImageIcon("data/blue_pattern.png")));
         JLabel logo = new JLabel(new ImageIcon("data/EC_India.jpeg"));
@@ -68,52 +68,9 @@ class admin{
 
          Statement stmt = con.createStatement();
          String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = 'Not Approved'";
-            // PreparedStatement pstmt = conn.prepareStatement(sql);            
-            // pstmt.setString(1, Name);
-            // pstmt.setString(2, Dob);
-            // pstmt.setString(3, MailId);
-            // pstmt.setString(4, PhoneNumber);
-            // pstmt.setString(5, AadharNumber);
-            // pstmt.setString(6, VoterId);
-            // pstmt.executeUpdate();
-            ResultSet rs = stmt.executeQuery(sql);
-            // int colmns = rs.getColumnCount();
-            // for(int i=0;i<colmns;++i){
-            // //     System.out.println(rs.getString(i));
-            // // }
-            // int rows = 0;
-            // if(rs.last()){
-            //     rows = rs.getRow();
-            //     rs.beforeFirst();
-            // }
-        //     while(rs.next()){
-        //         System.out.println(rs.getString("CandidateName"));
-        //         JPanel panel = new JPanel();
-        //         frame.add(panel);
-        //         panel.setBackground(Color.blue);
-        //         panel.setSize(300,300);
-        //         panel.setLayout(new GridLayout(3,3));
-        //         addToApprovalList(frame,panel);
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //     }
 
-        //     // for(int i=1;i<rows+1;++i){
-        //     //     System.out.print(rs.getString(i));
-        //     //     System.out.println("");
-        //     // }
-        //     //System.out.println(rs.getString(2));
-        //     // System.out.println("Results:-");
-        //     // System.out.println(rs.getString("CandidateName"));
-        //     // System.out.println(rs.getString("CandidateId"));
-        //     // System.out.println(rs.getString("CandidateImage"));
-        //     // System.out.println(rs.getString("PartyName"));
-        //     // System.out.println(rs.getString("PartyEmail"));
-        //     // System.out.println(rs.getString("ApproveStatus"));
+            ResultSet rs = stmt.executeQuery(sql);
+
             try{
             
                 BufferedImage image = null;
