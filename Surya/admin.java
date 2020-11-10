@@ -131,9 +131,6 @@ class admin{
                                 try{
                                 length= length-1;
                                 no_approvals_text.setVisible(length == 0); 
-                                if(length == 0){
-                                    JOptionPane.showMessageDialog(null, "No Pending approvals");
-                                }
                                 PartyName.setVisible(false);
                                 CandidateName.setVisible(false);
                                 accept.setVisible(false);
@@ -141,6 +138,9 @@ class admin{
                                 Party_photo.setVisible(false);
                                 String sql_accept = "UPDATE CandidateDatabase SET ApproveStatus='Approved' WHERE PartyName ="+ "\""+party_name+"\"";
                                 ResultSet rs_accept = stmt.executeQuery(sql_accept);
+                                //  if(length == 0){
+                                //     JOptionPane.showMessageDialog(null, "No Pending approvals");
+                                // }
                                 }
                                 catch(Exception sqlExcept){
                                     System.out.println(sqlExcept);
@@ -155,9 +155,6 @@ class admin{
                                 try{
                                 length = length-1;
                                 no_approvals_text.setVisible(length == 0);  
-                                if(length == 0){
-                                    JOptionPane.showMessageDialog(null, "No Pending approvals");
-                                }
                                 PartyName.setVisible(false);
                                 CandidateName.setVisible(false);
                                 accept.setVisible(false);
@@ -165,6 +162,9 @@ class admin{
                                 Party_photo.setVisible(false);
                                 String sql_reject = "DELETE FROM CandidateDatabase " +"WHERE PartyName ="+ "\""+party_name+"\"";
                                 ResultSet rs_reject = stmt.executeQuery(sql_reject);
+                                // if(length == 0){
+                                //     JOptionPane.showMessageDialog(null, "No Pending approvals");
+                                // }
                                 }
                                 catch(Exception sqlExcept){
                                     System.out.println(sqlExcept);
@@ -175,10 +175,10 @@ class admin{
 
 
                         x= x+380;
-                        no_approvals_text.setVisible(length == 0); 
-                        if(length == 0){
-                                    JOptionPane.showMessageDialog(null, "No Pending approvals");
-                                }
+                         no_approvals_text.setVisible(length == 0); 
+                        // if(length == 0){
+                        //             JOptionPane.showMessageDialog(null, "No Pending approvals");
+                        //         }
                         
                 }
             }
@@ -190,5 +190,9 @@ class admin{
         }
         no_approvals_text.setVisible(length == 0);
         System.out.println("length :: "+length);
+        // if(length == 0){
+        //                             JOptionPane.showMessageDialog(null, "No Pending approvals");
+        //                         }
+
     }
 }
