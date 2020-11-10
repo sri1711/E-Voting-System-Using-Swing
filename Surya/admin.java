@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,11 +30,10 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 class admin{
-
+    static int length = 0;
     public static void main(String[] args) {
         System.out.println("Welcome!!");
         r_frame01();
-        //r_frame01();
     }
 
     public static void r_frame01(){
@@ -46,20 +46,27 @@ class admin{
         logo.setBounds(270,50,image_size.width,image_size.height);
         frame.setLayout(null);
         frame.setSize(900,600);
-        //frame.getContentPane().setBackground(new Color(248,248,248));
 
         JLabel title = new JLabel("Approvals required");
-        //Dimension title_size = title.getPreferredSize();
         title.setBounds(290,150,350,50);
         title.setForeground(new Color(255, 215, 0));
         title.setOpaque(false);
         title.setFont(new Font("Serif",Font.PLAIN,45));
         frame.add(title);
-        backend(frame);
+
+        JLabel no_approvals_text = new JLabel("No pending Approvals");
+        no_approvals_text.setBounds(330,280,350,50);
+        no_approvals_text.setForeground(new Color(255, 215, 0));
+        no_approvals_text.setVisible(false);
+        no_approvals_text.setFont(new Font("Serif",Font.PLAIN,25));
+        frame.add(no_approvals_text);
+
+        backend(frame,no_approvals_text);
 
 
     }
-    public static void backend(JFrame frame){
+    public static void backend(JFrame frame,JLabel no_approvals_text){
+
         Connection con =null;
         try{
         String url = "jdbc:sqlite:D:/Java/mini_project/Surya/data/CandidateDatabase.db";
@@ -68,59 +75,15 @@ class admin{
 
          Statement stmt = con.createStatement();
          String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = 'Not Approved'";
-            // PreparedStatement pstmt = conn.prepareStatement(sql);            
-            // pstmt.setString(1, Name);
-            // pstmt.setString(2, Dob);
-            // pstmt.setString(3, MailId);
-            // pstmt.setString(4, PhoneNumber);
-            // pstmt.setString(5, AadharNumber);
-            // pstmt.setString(6, VoterId);
-            // pstmt.executeUpdate();
             ResultSet rs = stmt.executeQuery(sql);
-            // int colmns = rs.getColumnCount();
-            // for(int i=0;i<colmns;++i){
-            // //     System.out.println(rs.getString(i));
-            // // }
-            // int rows = 0;
-            // if(rs.last()){
-            //     rows = rs.getRow();
-            //     rs.beforeFirst();
-            // }
-        //     while(rs.next()){
-        //         System.out.println(rs.getString("CandidateName"));
-        //         JPanel panel = new JPanel();
-        //         frame.add(panel);
-        //         panel.setBackground(Color.blue);
-        //         panel.setSize(300,300);
-        //         panel.setLayout(new GridLayout(3,3));
-        //         addToApprovalList(frame,panel);
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //         panel.add(new JButton("Button 1"));
-        //     }
-
-        //     // for(int i=1;i<rows+1;++i){
-        //     //     System.out.print(rs.getString(i));
-        //     //     System.out.println("");
-        //     // }
-        //     //System.out.println(rs.getString(2));
-        //     // System.out.println("Results:-");
-        //     // System.out.println(rs.getString("CandidateName"));
-        //     // System.out.println(rs.getString("CandidateId"));
-        //     // System.out.println(rs.getString("CandidateImage"));
-        //     // System.out.println(rs.getString("PartyName"));
-        //     // System.out.println(rs.getString("PartyEmail"));
-        //     // System.out.println(rs.getString("ApproveStatus"));
             try{
             
                 BufferedImage image = null;
                 int x = 110;
+
                 while(rs.next()){
+                    ++length;
                     InputStream input = new BufferedInputStream( rs.getBinaryStream("PartyLogo"));
-                    //byte[] buffer = new byte[1024];
                     
                         image = ImageIO.read(input);
                         ImageIcon background_icon = new ImageIcon(image);
@@ -136,8 +99,6 @@ class admin{
 
                         JLabel PartyName = new JLabel(party_name);
                         JLabel CandidateName = new JLabel(candidate_name);
-                        // System.out.println(rs.getString("PartyName"));
-                        // System.out.println(rs.getString("CandidateName"));
 
                         PartyName.setBounds(x+220,250,100,30);
                         CandidateName.setBounds(x+220,280,300,30);
@@ -164,11 +125,15 @@ class admin{
                         reject.setBackground(new Color(76,81,137));
 
                         accept.addActionListener(new ActionListener(){
-                            public void actionPerformed(ActionEvent ae){
-                                // frame.remove(PartyName);
-                                 
+
+                            public void actionPerformed(ActionEvent ae){                     
+
                                 try{
-                                //String sql_accept = "UPDATE CandidateDatabase"+ "SET ApproveStatus='Approved' WHERE PartyName =" + party_name;
+                                length= length-1;
+                                no_approvals_text.setVisible(length == 0); 
+                                if(length == 0){
+                                    JOptionPane.showMessageDialog(null, "No Pending approvals");
+                                }
                                 PartyName.setVisible(false);
                                 CandidateName.setVisible(false);
                                 accept.setVisible(false);
@@ -176,8 +141,6 @@ class admin{
                                 Party_photo.setVisible(false);
                                 String sql_accept = "UPDATE CandidateDatabase SET ApproveStatus='Approved' WHERE PartyName ="+ "\""+party_name+"\"";
                                 ResultSet rs_accept = stmt.executeQuery(sql_accept);
-                                //PartyName.setVisible(false);
-                                //CandidateName.setVisible(false);
                                 }
                                 catch(Exception sqlExcept){
                                     System.out.println(sqlExcept);
@@ -188,8 +151,14 @@ class admin{
 
                         reject.addActionListener(new ActionListener(){
                             public void actionPerformed(ActionEvent ae){
+                    
                                 try{
-                                    PartyName.setVisible(false);
+                                length = length-1;
+                                no_approvals_text.setVisible(length == 0);  
+                                if(length == 0){
+                                    JOptionPane.showMessageDialog(null, "No Pending approvals");
+                                }
+                                PartyName.setVisible(false);
                                 CandidateName.setVisible(false);
                                 accept.setVisible(false);
                                 reject.setVisible(false);
@@ -206,7 +175,11 @@ class admin{
 
 
                         x= x+380;
-                    
+                        no_approvals_text.setVisible(length == 0); 
+                        if(length == 0){
+                                    JOptionPane.showMessageDialog(null, "No Pending approvals");
+                                }
+                        
                 }
             }
             catch(IOException e){
@@ -215,9 +188,7 @@ class admin{
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
+        no_approvals_text.setVisible(length == 0);
+        System.out.println("length :: "+length);
     }
-
-    // public static void addToApprovalList(Jframe frame,JPanel panel){
-    //     panel.
-    // }
 }
