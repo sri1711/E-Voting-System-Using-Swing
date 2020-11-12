@@ -33,7 +33,6 @@ import javax.imageio.ImageIO;
 
 class cast{
     static int length = 0;
-    static boolean isClicked = false;
     public static void main(String[] args) {
         System.out.println("Welcome!!");
         r_frame01();
@@ -50,56 +49,19 @@ class cast{
         frame.setLayout(null);
         frame.setSize(900,600);
 
-        //         JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        // frame.setContentPane(pane);
-
-        // SwingUtilities.invokeLater(new Runnable() {
-        //     @Override
-        //     public void run() {
-        //         frame.setVisible(true);
-        //     }
-        // });
-
-        //scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-
-        // JScrollPane scrPane = new JScrollPane();
-        // scrPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        // frame.add(scrPane); 
-
-        // JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        // frame.setContentPane(pane);
-
-        // SwingUtilities.invokeLater(new Runnable() {
-        //     @Override
-        //     public void run() {
-        //         frame.setVisible(true);
-        //     }
-        // });
-
-            // Container c = getContentPane();
-            // JScrollPane scroll = new JScrollPane( c );
-            // setContentPane( scroll );
-
-        JLabel title = new JLabel("Approvals required");
+        JLabel title = new JLabel("Cast your vote");
         title.setBounds(290,150,350,50);
         title.setForeground(new Color(255, 215, 0));
         title.setOpaque(false);
-        title.setFont(new Font("Serif",Font.PLAIN,45));
+        title.setFont(new Font("Serif",Font.PLAIN,40));
         frame.add(title);
 
-        JLabel no_approvals_text = new JLabel("No pending Approvals");
-        no_approvals_text.setBounds(330,280,350,50);
-        no_approvals_text.setForeground(new Color(255, 215, 0));
-        no_approvals_text.setVisible(false);
-        no_approvals_text.setFont(new Font("Serif",Font.PLAIN,25));
-        frame.add(no_approvals_text);
 
-        backend(frame,no_approvals_text);
+        castVote(frame);
 
 
     }
-    public static void backend(JFrame frame,JLabel no_approvals_text){
+    public static void castVote(JFrame frame){
         int i = 0;
         Connection con =null;
         try{
@@ -108,7 +70,7 @@ class cast{
          System.out.println("Connection Built successfully");
 
          Statement stmt = con.createStatement();
-         String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = 'Not Approved'";
+         String sql = "SELECT * FROM CandidateDatabase";
             ResultSet rs = stmt.executeQuery(sql);
             try{
             
@@ -163,32 +125,14 @@ class cast{
                                     System.out.println("Your vote speaks!");
                                     JOptionPane.showMessageDialog(frame,"Your vote speaks!");
                                     try{
-                                        isClicked = true;
                                         length= length-1;
-                                        no_approvals_text.setVisible(length == 0); 
-                                        // PartyName.setVisible(isClicked == false);
-                                        // CandidateName.setVisible(isClicked == false);
-                                        // cast_vote.setVisible(isClicked == false);
-                                        // Party_photo.setVisible(isClicked == false);
                                         String sql_candidate_updation = "UPDATE CandidateDatabase SET VotingCount = VotingCount + 1 WHERE PartyName = "+ "\""+party_name+"\"";
-                                        //String sql_cast_vote = "UPDATE CandidateDatabase SET VotingCount=1 WHERE PartyName ="+ "\""+party_name+"\"";
                                         stmt.executeQuery(sql_candidate_updation);
-         //>>>----------------->     // String sql_voter_updation = "UPDATE VoterRegistration SET VoteStatus = 'Voted'where VoterId = TWT22123 "
-                                        // stmt.executeQuery(sql_voter_updation);
-                                        //  if(length == 0){
-                                        //     JOptionPane.showMessageDialog(null, "No Pending approvals");
-                                        // }
-                                        // System.out.println(rs_cast_vote.getRow());
-                                        // while(rs_cast_vote.next()){
-                                        //     System.out.println(rs_cast_vote);
-                                        // }
-                                                                                }
-                                        catch(Exception sqlExcept){
+                                    }catch(Exception sqlExcept){
                                             System.out.println(sqlExcept);
                                         }
                                     frame.dispose();
-                                    //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-                                }
+                                   }
                                 else{
                                     System.out.println("Choose your option wisely!");
                                 }  
@@ -199,13 +143,7 @@ class cast{
                         if(i%3 == 0){
                             y+= 160;
                             x = 110;
-                        }
-                        
-                         no_approvals_text.setVisible(length == 0); 
-                        // if(length == 0){
-                        //             JOptionPane.showMessageDialog(null, "No Pending approvals");
-                        //         }
-                        
+                        }                        
                 }
             }
             catch(IOException e){
@@ -216,9 +154,6 @@ class cast{
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
-
-        no_approvals_text.setVisible(length == 0);
         System.out.println("length :: "+length);
-        System.out.println("inside isClicked : " + isClicked);
     }
 }
