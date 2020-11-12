@@ -66,7 +66,7 @@ class admin{
 
     }
     public static void backend(JFrame frame,JLabel no_approvals_text){
-
+                int i = 0;
         Connection con =null;
         try{
         String url = "jdbc:sqlite:D:/Java/mini_project/Surya/data/CandidateDatabase.db";
@@ -77,45 +77,45 @@ class admin{
          String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = 'Not Approved'";
             ResultSet rs = stmt.executeQuery(sql);
             try{
-            
                 BufferedImage image = null;
                 int x = 110;
-
+                int y  = 230;
                 while(rs.next()){
                     ++length;
+                    ++i;
                     InputStream input = new BufferedInputStream( rs.getBinaryStream("PartyLogo"));
                     
                         image = ImageIO.read(input);
                         ImageIcon background_icon = new ImageIcon(image);
                         Image im = background_icon.getImage();
-                        Image resizedImage = im.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+                        Image resizedImage = im.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                         JLabel Party_photo = new JLabel(new ImageIcon(resizedImage));
                         frame.add(Party_photo);
-                        Party_photo.setBounds(x,150,200,400);
+                        Party_photo.setBounds(x-40,y-20,100,200);
                         frame.setBackground(new Color(255,255,255));
 
                         String party_name = rs.getString("PartyName") ;
                         String candidate_name = rs.getString("CandidateName");
 
                         JLabel PartyName = new JLabel(party_name);
-                        JLabel CandidateName = new JLabel(candidate_name);
+                        JLabel CandidateName = new JLabel("|  "+candidate_name);
 
-                        PartyName.setBounds(x+220,250,100,30);
-                        CandidateName.setBounds(x+220,280,300,30);
+                        PartyName.setBounds(x-40,y-2,100,30);
+                        CandidateName.setBounds(x+70,y,300,30);
 
-                        PartyName.setFont(new Font("Serif",Font.PLAIN,35));
+                        PartyName.setFont(new Font("Serif",Font.PLAIN,30));
                         PartyName.setForeground(new Color(255, 215, 0));
                         frame.add(PartyName);
                         
-                        CandidateName.setFont(new Font("Serif",Font.PLAIN,20));
+                        CandidateName.setFont(new Font("Serif",Font.PLAIN,15));
                         CandidateName.setForeground(new Color(255, 215, 0));
                         frame.add(CandidateName);
 
                         JButton accept = new JButton("Accept");
                         JButton reject = new JButton("Reject");
-                        accept.setBounds(x+220,320,100,40);
+                        accept.setBounds(x+70,y+40,100,40);
                         frame.add(accept);
-                        reject.setBounds(x+220,370,100,40);
+                        reject.setBounds(x+70,y+90,100,40);
                         frame.add(reject);
 
                         accept.setForeground(new Color(255, 215, 0));
@@ -174,11 +174,13 @@ class admin{
 
 
 
-                        x= x+380;
+                        x= x+280;
+                        if(i%3 == 0){
+                            y+= 160;
+                            x = 110;
+                        }
+                        
                          no_approvals_text.setVisible(length == 0); 
-                        // if(length == 0){
-                        //             JOptionPane.showMessageDialog(null, "No Pending approvals");
-                        //         }
                         
                 }
             }
