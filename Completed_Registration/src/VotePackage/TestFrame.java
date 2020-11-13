@@ -24,13 +24,13 @@ import javax.swing.JOptionPane;
 
 public class TestFrame {
 	
-	public static void display_image(String Candidate_name){
+	public static void display_image(String Party_name){
 		JFrame frame = new JFrame();
 		Connection conn = null;
 		try{
 			
 			//Url of DataBase
-			String url = "jdbc:sqlite:CandidateDatabase.db";
+			String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/voter_registration.db";
 			
 			
 			//Connecting Database 
@@ -39,21 +39,19 @@ public class TestFrame {
 			
 			
 			//Sql Query to execute
-			String sqlquery = "SELECT * FROM CandidateDatabase WHERE PartyName=?";
+			String sqlquery = "SELECT * FROM VoterRegistration WHERE VoterId=?";
 			
 			ResultSet rs = null;
 			
 			PreparedStatement ps = conn.prepareStatement(sqlquery);
-			ps.setString(1,Candidate_name);
+			ps.setString(1,Party_name);
 			rs = ps.executeQuery();
 			try{
 			
 				BufferedImage image = null;
 				
 				while(rs.next()){
-					InputStream input = new BufferedInputStream( rs.getBinaryStream("PartyLogo"));
-					//byte[] buffer = new byte[1024];
-					
+						InputStream input = new BufferedInputStream( rs.getBinaryStream("VoterPhoto"));
 						image = ImageIO.read(input);
 						ImageIcon background_icon = new ImageIcon(image);
 						Image im = background_icon.getImage();
@@ -69,13 +67,6 @@ public class TestFrame {
 			catch(IOException e){
 				System.out.println(e.getMessage());
 			}
-				
-//			String selectSQL = "SELECT picture FROM materials WHERE id=?";
-		    
-				
-				
-				//JOptionPane.showMessageDialog(null, );
-			// Executing Sql Query
 			
 			System.out.println("Added");
 			frame.setLayout(null);
@@ -100,7 +91,7 @@ public class TestFrame {
 
 	}
 	public static void main(String args[]){
-		display_image("Marvel");
+		display_image("TWT0123321");
 	}
 	
 

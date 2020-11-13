@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 class MainPage {
 	public static void main(String[] args) {
-		String url ="images/RegVote.jpg";
-		String eci = "images/EC_India.jpeg"
+		String url ="D:/Eclipse/workspace/Elite Voting System/images/RegVote.jpg";
+		String eci = "D:/Eclipse/workspace/Elite Voting System/images/EC_India.jpeg"
 				+ "";
-		String bg="images/Background.png";
+		String bg="D:/Eclipse/workspace/Elite Voting System/images/Background.png";
 		JFrame f = new JFrame();
 		f.setContentPane(new JLabel(new ImageIcon(bg)));
 		JButton RegB = new JButton("Register");
@@ -52,6 +52,7 @@ class MainPage {
 		f.getContentPane().setBackground(new Color(248,248,248));
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		System.out.println(f.getComponentCount());
 		
 		exit.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -64,6 +65,12 @@ class MainPage {
 				RegisterSector reg = new RegisterSector();
 				f.dispose();
 				reg.r_frame01();
+			}
+		});
+		AdminB.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				f.dispose();
+				Admin.admin_username_frame();
 			}
 		});
 	}
