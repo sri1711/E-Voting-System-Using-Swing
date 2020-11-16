@@ -300,6 +300,7 @@ public class RegisterSector {
         back_button.setBackground(new Color(76,81,137));
         back_button.setForeground(new Color(255, 215, 0));
         frame.add(back_button);
+        frame.setResizable(false);
         
         back_button.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent ae){
@@ -443,6 +444,7 @@ public class RegisterSector {
         back_button.setForeground(new Color(255, 215, 0));
         frame.add(back_button);
         
+        frame.setResizable(false);
         
         ArrayList<JLabel> labels_photo = new ArrayList<JLabel>();
         ArrayList<File> labels_photo_file = new ArrayList<File>();
@@ -513,6 +515,7 @@ public class RegisterSector {
    							System.out.println("Inserting now");
 							DB.insert(name_tf.getText(),dob_tf.getText(),mail_tf.getText(),phone_tf.getText(),aadhar_tf.getText(),voterid_tf.getText(),labels_photo_file.get(0));
 							System.out.println("Done!");
+							JOptionPane.showMessageDialog(frame, "Registered Successfully!!");
 							name_tf.setText("");
 							dob_tf.setText("");
 							mail_tf.setText("");
@@ -558,6 +561,7 @@ public class RegisterSector {
 		logo.setBounds(270,50,image_size.width,image_size.height);
 		frame.setLayout(null);
 		frame.setSize(900,600);
+		frame.setResizable(false);
 
 		JLabel title = new JLabel("Choose your role");
 		//Dimension title_size = title.getPreferredSize();
@@ -618,7 +622,6 @@ public class RegisterSector {
 	
 	
 	public static void main(String[] args){
-		//Candidate_register_frame();
 		r_frame01();
 		
 	}

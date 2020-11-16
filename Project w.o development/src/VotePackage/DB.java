@@ -80,7 +80,11 @@ public class DB {
 	        	System.out.println(e);
 	        }
 		}
-
+		
+		
+//----------------------------------------------------------------------------------------
+		
+		
 		public static Boolean checkExistance(String AadharNumber){
 				Connection conn =null;
 				String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/voter_registration.db";
@@ -117,6 +121,10 @@ public class DB {
 			 }
 
 		}
+		
+		
+//-----------------------------------------------------------------------------------------		
+		
 		
 		public static void Candidate_database(String CandidateId, String Candidate_name,String Party_name,File Candidate_image,File Party_logo,String Party_email){
 			Connection conn = null;
@@ -163,12 +171,9 @@ public class DB {
 				catch(Exception e){
 					System.out.println(e.getMessage());
 				}
-				// Executing Sql Query
 				ps.executeUpdate();
 				System.out.println("Added");
 				JOptionPane.showMessageDialog(null, "Registered Successfully");
-				
-						
 			}
 			catch(SQLException e){
 				System.out.println(e.getMessage());
@@ -184,6 +189,9 @@ public class DB {
 			}
 			
 		}
+		
+//-----------------------------------------------------------------------------------------
+		
 		
 		
 		public static void get_Voter_Image(JFrame frame, String VoterId){
@@ -264,6 +272,9 @@ public class DB {
 
 		}
 		
+//-----------------------------------------------------------------------------------------
+		
+		
 	    public static void request_backend(JFrame frame,JLabel no_approvals_text){
 	    	int i = 0;
 	    	Connection con =null;
@@ -273,7 +284,7 @@ public class DB {
 	    		System.out.println("Connection Built successfully");
 
 	    		Statement stmt = con.createStatement();
-	    		String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = 'Not Approved'";
+	    		String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = \"Not Approved\" ";
 	    		ResultSet rs = stmt.executeQuery(sql);
 
 	    		try{
@@ -332,8 +343,11 @@ public class DB {
                     				accept.setVisible(false);
                     				reject.setVisible(false);
                     				Party_photo.setVisible(false);
+                    				Connection con2 = DriverManager.getConnection(url);
+                    				Statement stmt2 = con2.createStatement();
                     				String sql_accept = "UPDATE CandidateDatabase SET ApproveStatus='Approved' WHERE PartyName ="+ "\""+party_name+"\"";
-                    				stmt.executeQuery(sql_accept);
+                    				stmt2.executeQuery(sql_accept);
+                    				con2.close();
                     			}
                     			catch(Exception sqlExcept){
                     				System.out.println(sqlExcept);
@@ -351,9 +365,11 @@ public class DB {
                     				accept.setVisible(false);
                     				reject.setVisible(false);
                     				Party_photo.setVisible(false);
-                    				String sql_reject = "DELETE FROM CandidateDatabase " +"WHERE PartyName ="+ "\""+party_name+"\"";
-                    				
-                    				stmt.executeQuery(sql_reject);
+                    				Connection con3 = DriverManager.getConnection(url);
+                    				Statement stmt3 = con3.createStatement();
+                    				String sql_reject = "DELETE FROM CandidateDatabase " +"WHERE PartyName ="+ "\""+party_name+"\"";                    				
+                    				stmt3.executeQuery(sql_reject);
+                    				con3.close();
                     			}
                     			catch(Exception sqlExcept){
                     				System.out.println(sqlExcept);
@@ -390,18 +406,20 @@ public class DB {
 	    }		
 	    
 	    
+//-----------------------------------------------------------------------------------------
+	    
+	    
 		public static void LiveStatusDb(JFrame f){
 			Connection conn = null;
 			try {
 			String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
-			String sqlquery = "SELECT PartyLogo,PartyName,CandidateName,VotingCount FROM CandidateDatabase";
+			String sqlquery = "SELECT PartyLogo,PartyName,CandidateName,VotingCount FROM CandidateDatabase WHERE ApproveStatus = \"Approved\" ";
 			conn = DriverManager.getConnection(url);
 			
 			ResultSet rs = null;
 			
 			PreparedStatement ps = conn.prepareStatement(sqlquery);
-			//ps.setString(1, "PartyLogo");
-			//ps.setString(1, "Approved");
+			
 			rs = ps.executeQuery();
 			
 			BufferedImage image = null;
@@ -473,6 +491,9 @@ public class DB {
 		}
 		
 
+//-----------------------------------------------------------------------------------------		
+		
+		
 		@SuppressWarnings("finally")
 		public static ResultSet getEmail(String Voter_id){
 			ResultSet rs = null;
@@ -492,6 +513,9 @@ public class DB {
 			}
 			return rs;
 		}
+	
+		
+//-----------------------------------------------------------------------------------------		
 		
 		
 	    public static void castVote(JFrame frame,String Voter_id){
@@ -505,7 +529,7 @@ public class DB {
 	         
              
 	         
-	         String sql = "SELECT * FROM CandidateDatabase";
+	         String sql = "SELECT * FROM CandidateDatabase WHERE ApproveStatus = \"Approved\" ";
 	            ResultSet rs = stmt.executeQuery(sql);
 	            try{
 	            
@@ -564,6 +588,7 @@ public class DB {
 	                                        updateCountStatus(party_name);
 	                                        updateVoteStatus(Voter_id);
 	                                        JOptionPane.showMessageDialog(frame,"Your vote speaks!\n Thank You For Voting.");
+	                                        MainPage.main(null);
 	                                        
 	                                    }
 	                                    catch(Exception sqlExcept){
@@ -608,6 +633,9 @@ public class DB {
 	    }
 	    
 	    
+//-----------------------------------------------------------------------------------------	    
+	    
+	    
 	    private  static void  updateVoteStatus(String Voter_id){
 	    	Connection conn =null;
             try {
@@ -632,6 +660,11 @@ public class DB {
             
             
 	    }
+	    
+
+//-----------------------------------------------------------------------------------------
+	    
+	    
 		
 	    private static void updateCountStatus(String party_name){
 	    	Connection conn = null;
@@ -657,37 +690,135 @@ public class DB {
 	    	}
 	    }
 	    
-	    public static String getVoteCountStatus(JFrame frame){
-	    	System.out.println("In the function"); 	
-	    	String Party_name = "";
+//-----------------------------------------------------------------------------------------	    
+	    
+	    
+	    
+	    static ResultSet getLeadingStatus(){
 	    	Connection conn = null;
-	    	try {
-				ResultSet rs2 = null;
-				String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
-		        conn = DriverManager.getConnection(url); 
-				String sql = "SELECT PartyName FROM CandidateDatabase WHERE VotingCount = ?";
-				PreparedStatement ps2 = conn.prepareStatement(sql);
-				ps2.setInt(1, Collections.max(ob));
-				rs2 = ps2.executeQuery();
-			    
-				while(rs2.next()) {
-					count++;
-				}
-				
-				if(count<=1){
-					rs2 = ps2.executeQuery();
-					Party_name = rs2.getString("PartyName");
-				}
+	    	ResultSet rs = null;
+	    	int count = 0;
+	    	try{
+	    		conn = DriverManager.getConnection("jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db");
+	    		String sql = "SELECT *,max(VotingCount)FROM CandidateDatabase";
+	    		Statement stmt = conn.createStatement();
+	    		rs = stmt.executeQuery(sql);
+	    	}
+	    	catch(SQLException e){
+	    		System.out.println(e);
+	    	}
+	    	return rs;
+	    }
+	    
 
-			    System.out.println("In GetCo" + Collections.max(ob));
-				conn.close();
-				
-				
-			}
-			catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-	    	return Party_name;
+//-----------------------------------------------------------------------------------------	    
+	    
+	    
+	    
+	    public static void publishResults(String database,String table,String MailId) {
+			 	Connection con =null;
+		        try{
+		        	String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/" + database;
+		        	con = DriverManager.getConnection(url);
+		        	System.out.println("Connection Built successfully");
+		        	Statement stmt = con.createStatement();
+		        	String sql = "SELECT MailId FROM " + table;
+		        	ResultSet rs = stmt.executeQuery(sql);
+		        	while(rs.next()) {
+		        		try {
+		        			Email email = new Email("ECIjavaproject@gmail.com","java*demo");
+		        			email.setSubject("Result of the election...");
+		        			email.setFrom("ECIjavaproject@gmail.com", "Election Commision Of India");
+		        			email.addRecipient(rs.getString(MailId));
+		        			ResultSet rs2 = getElectionWinner();
+		        			email.setContent("<h2>"+ rs2.getString("PartyName") +"'s "+ rs2.getString("CandidateName") +"</h2>"
+
+		    						+ "<h3>had been Elected by the majority of people with " +rs2.getString("VotingCount")+" votes.</h3>", "text/html");
+		        			email.send();
+		        		}
+		        		catch(Exception e) {
+		        			System.out.println(e.getLocalizedMessage());
+		        		}
+		        	}
+		        }
+		        catch(SQLException sqlE) {
+		        	System.out.println(sqlE);
+		        }
+		        try {
+		        	con.close();
+		        }
+		        catch(Exception e) {
+		        	System.out.println("Can't close the connection!");
+		        }
+		}
+	    
+//-----------------------------------------------------------------------------------------	    
+	    
+	    
+	    private static ResultSet getElectionWinner(){
+	    	Connection conn = null;
+	    	ResultSet rs = null;
+	    	int count = 0;
+	    	try{
+	    		conn = DriverManager.getConnection("jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db");
+	    		String sql = "SELECT *,max(VotingCount)FROM CandidateDatabase";
+	    		Statement stmt = conn.createStatement();
+	    		rs = stmt.executeQuery(sql);
+	    	}
+	    	catch(SQLException e){
+	    		System.out.println(e);
+	    	}
+	    	return rs;
+	    }
+//-----------------------------------------------------------------------------------------
+	    
+	    static void EraseTableData(){
+	    	try{
+                Connection con =null;
+                 String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
+                 con = DriverManager.getConnection(url);
+                 Statement stmt = con.createStatement();
+               String sql_candidate_deletion = "DELETE FROM candidateDatabase";
+               stmt.executeQuery(sql_candidate_deletion);
+               con.close();
+             
+           }catch(Exception sqlExcept){
+                   System.out.println(sqlExcept);
+               }
+
+           try{
+              Connection con2 =null;
+               String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/voter_registration.db";
+               con2 = DriverManager.getConnection(url);
+                Statement stmt = con2.createStatement();
+                String sql_voter_deletion = "DELETE FROM VoterRegistration";
+              stmt.executeQuery(sql_voter_deletion);
+              con2.close();
+           }
+           catch(Exception sqlExcept){
+                   System.out.println(sqlExcept);
+               }
 	    }
 
+	    
+//-----------------------------------------------------------------------------------------
+	    
+	    public static int getCountCandidateDaabase(){
+	    	int count = 0 ;
+	    	try{
+	    		String url = "jdbc:sqlite:D:/Eclipse/workspace/Elite Voting System/CandidateDatabase.db";
+	    		Connection conn = DriverManager.getConnection(url);
+	    		Statement stmt = conn.createStatement();
+	    		String sqlquery = "SELECT COUNT(*) FROM CandidateDatabase WHERE ApproveStatus = \"Approved\" ";
+	    		ResultSet rs = stmt.executeQuery(sqlquery);
+	    		System.out.println(rs.getInt(1));
+	    		count = rs.getInt(1);
+	    	}
+	    	catch(SQLException e){
+	    		System.out.println(e.getMessage());
+	    	}
+	    	
+	    	return count;
+	    }
+	    
 }

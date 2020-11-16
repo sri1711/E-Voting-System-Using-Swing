@@ -56,6 +56,7 @@ public class LoginSector {
 		frame.setVisible(true);
 		frame.setLayout(null);
 		frame.setSize(900,600);
+		frame.setResizable(false);
 	}
 	
 	
@@ -90,6 +91,7 @@ public class LoginSector {
 		frame.setSize(800, 600);
 		frame.getContentPane().setBackground(new Color(255,255,255));
 		frame.setVisible(true);
+		frame.setResizable(false);
 		
 		OTP.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e1) {
@@ -141,7 +143,7 @@ public class LoginSector {
 					else if(Voter_id.equals(""))
 						JOptionPane.showMessageDialog(frame, "Please enter valid data");
 					else
-						JOptionPane.showMessageDialog(frame, "Your VoterID doesn't match with given data");
+						JOptionPane.showMessageDialog(frame, "Your VoterID doesn't match with given data\nMake sure that you have registered with us.");
 					if(flag==1){
 						frame.dispose();
 						voter_otp_frame(Voter_Id);
@@ -234,11 +236,14 @@ public class LoginSector {
 		frame.setLayout(null);
 		frame.setSize(800,600);
 		frame.setVisible(true); 
+		frame.setResizable(false);
 
 		
 	}
 	
     public static void Castvote_frame(){
+    	
+    	
         JFrame frame  = new JFrame();
         frame.setContentPane(new JLabel(new ImageIcon("images/blue_pattern.png")));
         JLabel logo = new JLabel(new ImageIcon("images/EC_India.jpeg"));
@@ -248,6 +253,7 @@ public class LoginSector {
         logo.setBounds(270,50,image_size.width,image_size.height);
         frame.setLayout(null);
         frame.setSize(900,600);
+        frame.setResizable(false);
 
         JLabel title = new JLabel("Cast your vote");
         title.setBounds(290,150,350,50);
@@ -262,6 +268,6 @@ public class LoginSector {
 	
 	public static void main(String args[]){
 		//r_frame01();
-		voter_username_frame();
+		Castvote_frame();
 	}
 }

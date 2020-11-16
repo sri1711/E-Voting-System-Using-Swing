@@ -52,6 +52,7 @@ class MainPage {
 		f.getContentPane().setBackground(new Color(248,248,248));
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setResizable(false);
 		System.out.println(f.getComponentCount());
 		
 		exit.addActionListener(new ActionListener(){
@@ -65,6 +66,7 @@ class MainPage {
 				RegisterSector reg = new RegisterSector();
 				f.dispose();
 				reg.r_frame01();
+				
 			}
 		});
 		AdminB.addActionListener(new ActionListener(){
@@ -75,8 +77,14 @@ class MainPage {
 		});
 		LogB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				f.dispose();
-				LoginSector.voter_username_frame();
+				if(DB.getCountCandidateDaabase() >= 2 ){
+					f.dispose();
+					LoginSector.voter_username_frame();
+				}
+				else{
+					JOptionPane.showMessageDialog(f, "No Party is yet competing with other.");
+					
+				}
 			}
 		});
 	}

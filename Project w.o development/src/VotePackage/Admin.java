@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +27,7 @@ public class Admin {
 	
 	private static int otp ;
 	private static boolean LoginStatus = false; 
+	private static String  Party_name = ""; 
 	public static void  admin_otp_frame(){
 		JFrame frame = new JFrame();
 		frame.setContentPane(new JLabel(new ImageIcon("D:/Eclipse/workspace/Elite Voting System/images/blue_pattern.png")));
@@ -117,6 +119,7 @@ public class Admin {
 		frame.setLayout(null);
 		frame.setSize(800,600);
 		frame.setVisible(true); 
+		frame.setResizable(false);
 	}
 	
 	public static void  admin_username_frame(){
@@ -267,6 +270,7 @@ public class Admin {
 		frame.setLayout(null);
 		frame.setSize(800,600);
 		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 	
 	public static void admin_main_frame(){
@@ -290,26 +294,45 @@ public class Admin {
 			frame.add(title);
 			
 			JButton Request_button  = new JButton("Requests");
-			Request_button.setBounds(250,300,180,80);
-			Request_button.setFont(new Font("Serif", Font.PLAIN,25));
+			Request_button.setBounds(240,300,125,80);
+			Request_button.setFont(new Font("Serif", Font.PLAIN,20));
 			Request_button.setBackground(new Color(76,81,137));
 			Request_button.setForeground(new Color(255, 215, 0));
 			frame.add(Request_button);
 
 			JButton Livestatus_button  = new JButton("Live Status");
-			Livestatus_button.setBounds(460,300,180,80);
-			Livestatus_button.setFont(new Font("Serif", Font.PLAIN, 25));
+			Livestatus_button.setBounds(390,300,125,80);
+			Livestatus_button.setFont(new Font("Serif", Font.PLAIN, 20));
 			Livestatus_button.setBackground(new Color(76,81,137));
 			Livestatus_button.setForeground(new Color(255, 215, 0));
 			frame.add(Livestatus_button);
 			
 			
-			JButton logout_button = new JButton(" Logout ");
-			logout_button.setBounds(355,400,180,80);
-			logout_button.setFont(new Font("Serif", Font.PLAIN, 25));
-			logout_button.setBackground(new Color(76,81,137));
-			logout_button.setForeground(new Color(255, 215, 0));
-			frame.add(logout_button);
+			JButton publishResults_button = new JButton(" Publish Results ");
+			publishResults_button.setBounds(240,400,425,80);
+			publishResults_button.setFont(new Font("Serif", Font.PLAIN, 25));
+			publishResults_button.setBackground(new Color(76,81,137));
+			publishResults_button.setForeground(new Color(255, 215, 0));
+			frame.add(publishResults_button);
+			
+			JButton Logout_button = new JButton(" Logout ");
+			Logout_button.setBounds(20, 20, 100, 50);
+			Logout_button.setFont(new Font("Serif", Font.PLAIN, 18));
+			Logout_button.setBackground(new Color(76,81,137));
+			Logout_button.setForeground(new Color(255, 215, 0));
+			frame.add(Logout_button);
+			
+			
+			
+			JButton delete_button = new JButton(" Erase Data ");
+			delete_button.setBounds(540, 300, 125, 80);
+			delete_button.setFont(new Font("Serif", Font.PLAIN, 18));
+			delete_button.setBackground(new Color(76,81,137));
+			delete_button.setForeground(new Color(255, 215, 0));
+			frame.add(delete_button);
+
+			
+			
 			if(LoginStatus){
 				JOptionPane.showMessageDialog(frame, "Login Successfull...");
 				LoginStatus = false;
@@ -333,12 +356,34 @@ public class Admin {
 			});
 			
 			
-			logout_button.addActionListener(new ActionListener(){
+			Logout_button.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent ae){
 					frame.dispose();
 					admin_username_frame();
 				}
 			});
+			
+			publishResults_button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent ae){
+
+					int choice  = JOptionPane.showConfirmDialog(frame, "Do Confirm To Publish Results ? ");
+					if(choice == JOptionPane.YES_OPTION){
+						DB.publishResults("CandidateDataBase.db", "CandidateDataBase","PartyEmail");
+						DB.publishResults("voter_registration.db", "VoterRegistration","MailId");
+						JOptionPane.showMessageDialog(frame, "Results Have Been Published");
+					}
+					else{
+						JOptionPane.showMessageDialog(frame, "Publishing Results Have been Cancelled");
+					}
+				}
+			});
+			
+			delete_button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					DB.EraseTableData();
+				}
+			});
+
 
 		
 	}
@@ -353,6 +398,7 @@ public class Admin {
         logo.setBounds(270,50,image_size.width,image_size.height);
         frame.setLayout(null);
         frame.setSize(900,600);
+        frame.setResizable(false);
 
         JLabel title = new JLabel("Approvals required");
         title.setBounds(290,150,350,50);
@@ -383,6 +429,7 @@ public class Admin {
 				admin_main_frame();
 			}
 		});
+		
 		
         
 		
@@ -415,21 +462,38 @@ public class Admin {
 		back_button.setForeground(new Color(255,215,0));
 		back_button.setBackground(new Color(76,81,137));
 		back_button.setFont(back_button.getFont().deriveFont(18f));
+		
 		DB.LiveStatusDb(frame);
-		String Party_name = DB.getVoteCountStatus(frame);
+		
+		ResultSet rs = DB.getLeadingStatus();
+		try {
+			Party_name = rs.getString("PartyName");
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+		}
+		
+		
 		frame.setLayout(null);
 		frame.setSize(800, 600);
 		frame.setVisible(true);
-		if(Party_name.equals("")){
+		frame.setResizable(false);
+		
+		if(Party_name == null){
+			JLabel Election_text = new JLabel("No Candidates are currently \nParticipating in Election");
+	        Election_text.setBounds(125, 250, 550, 50);
+	        Election_text.setForeground(new Color(255, 215, 0));
+	        Election_text.setVisible(true);
+	        Election_text.setFont(new Font("Serif",Font.PLAIN,25));
+	        frame.add(Election_text);
 			
+		}
+		else if(Party_name.equals("")){
 			JOptionPane.showMessageDialog(frame, "No Party is leading at the moment");
 		}
 		else{
 			JOptionPane.showMessageDialog(frame,  Party_name + " party is leading ");
 		}
-		
-		
-		
+
 		back_button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				frame.dispose();
