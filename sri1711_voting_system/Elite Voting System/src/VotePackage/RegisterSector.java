@@ -621,9 +621,6 @@ public class RegisterSector {
 	
 	
 	
-	public static void main(String[] args){
-		r_frame01();
-		
-	}
+
 
 }

@@ -287,8 +287,4 @@ public class LoginSector {
         DB.castVote(frame,Voter_Id);
     }
 	
-	public static void main(String args[]){
-		//r_frame01();
-		voter_username_frame();
-	}
 }

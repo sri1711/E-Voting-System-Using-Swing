@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="D:/GithubRepository/Java_mini_project_sem_3/mailactivation/activation.jar"/>
 	<classpathentry kind="lib" path="D:/GithubRepository/Java_mini_project_sem_3/mailactivation/mail.jar"/>
 	<classpathentry kind="lib" path="D:/GithubRepository/Java_mini_project_sem_3/mailactivation/techsoftemail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/SRI/Downloads/sqlite-jdbc-3.7.2.jar.zip"/>
+	<classpathentry kind="lib" path="C:/Users/SRI/Downloads/Telegram Desktop/sqlite-jdbc-3.32.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

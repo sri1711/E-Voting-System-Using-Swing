@@ -506,8 +506,5 @@ public class Admin {
 	
 	
 	
-	public static void main(String[] args){
-		admin_main_frame();
-	}
 
 }

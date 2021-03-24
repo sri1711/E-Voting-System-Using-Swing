@@ -5,6 +5,7 @@ import VotePackage.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+
 class MainPage {
 	public static void main(String[] args) {
 		String url ="D:/Eclipse/Elite Voting System/images/RegVote.jpg";
@@ -89,7 +90,7 @@ class MainPage {
 					LoginSector.voter_username_frame();
 				}
 				else{
-					JOptionPane.showMessageDialog(f, "Can't Vote right now !!");
+					JOptionPane.showMessageDialog(f, "No Candidates are competing at the moment...");
 					
 				}
 			}

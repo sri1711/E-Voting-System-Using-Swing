@@ -41,7 +41,7 @@ public class DB {
 			ByteArrayOutputStream bos1 = null;
 			try{
 
-				String url = "jdbc:mysql:D:/Eclipse/Elite Voting System/voter_registration.db";
+				String url = "jdbc:sqlite:D:/Eclipse/Elite Voting System/voter_registration.db";
 				conn = DriverManager.getConnection(url);
 				System.out.println("Connection Built successfully");
 				System.out.println("Inside Insertion");
